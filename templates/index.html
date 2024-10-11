@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Room</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            var socket = io();
+
+            // Nachrichten senden
+            document.querySelector('#send').onclick = () => {
+                var message = document.querySelector('#message').value;
+                socket.send(message);
+                document.querySelector('#message').value = '';
+            };
+
+            // Nachrichten empfangen
+            socket.on('message', data => {
+                var msgContainer = document.createElement('div');
+                msgContainer.innerHTML = data;
+                document.querySelector('#chat').appendChild(msgContainer);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Flask Chat Room</h1>
+    <div id="chat"></div>
+    <input type="text" id="message" placeholder="Enter your message">
+    <button id="send">Send</button>
+</body>
+</html>
